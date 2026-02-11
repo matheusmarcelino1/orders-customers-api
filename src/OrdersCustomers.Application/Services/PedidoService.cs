@@ -1,4 +1,5 @@
 ﻿using OrdersCustomers.Application.DTOs;
+using OrdersCustomers.Application.Events;
 using OrdersCustomers.Application.Interfaces;
 using OrdersCustomers.Domain.Entities;
 using OrdersCustomers.Domain.Interfaces;
@@ -24,6 +25,14 @@ namespace OrdersCustomers.Application.Services
             var pedido = new Pedido(dto.ClienteId, dto.ValorTotal);
 
             await _repository.AddAsync(pedido);
+
+            var evento = new PedidoCriadoEvent
+            {
+                PedidoId = pedido.Id,
+                DataCriacao = DateTime.UtcNow
+            };
+
+            Console.WriteLine($"Evento disparado: Pedido {evento.PedidoId} criado em {evento.DataCriacao}");
 
             return new PedidoDto
             {
