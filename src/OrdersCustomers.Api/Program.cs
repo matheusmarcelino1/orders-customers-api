@@ -2,6 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using OrdersCustomers.Infrastructure.Data;
 using OrdersCustomers.Domain.Interfaces;
 using OrdersCustomers.Infrastructure.Repositories;
+using OrdersCustomers.Application.Interfaces;
+using OrdersCustomers.Application.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IPedidoService, PedidoService>();
+
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=orderscustomers.db"));
